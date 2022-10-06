@@ -1,0 +1,85 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'main/css/banner.css' %}">
+<link rel="stylesheet" href="{% static 'main/css/card.css' %}">
+<link rel="stylesheet" href="{% static 'main/css/parallax.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>SNUBI MART</title>
+{% endblock %}
+
+{% block main %}
+<header>
+  <nav class="teal lighten-3 z-depth-0">
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo">SNUBI MART</a>
+    </div>
+  </nav>
+</header>
+
+<div class="main-page">
+    <div class="banner-image">
+    </div>
+</div>
+
+<div class="row" style="margin-left:50px; margin-right:50px; margin-top: 10px;">
+<div style="width:49%; float:left;">
+  <table class="col-md-15" id="star_table" style = "width:100%;"> 
+    <tr class="text-center"><p><h5><b>구매하실 물건</b></h3></p></tr><br>
+    <tr class="text-center">
+      <th>No</th>
+      <th>이름</th>
+      <th>개수</th>
+      <th>가격</th>
+      <th>총합</th>
+    </tr>
+  </table>
+</div>
+
+<div style="width:49%; float:right;">
+    <table class="col-md-15" id="star_table" style = "width:100%;"> 
+        <tr class="text-center"><p><h5><b>계산대의 물건을 확인하세요!</b></h3></p></tr><br>
+        <tr>
+            <td>
+                <img
+                    src="http://127.0.0.1:8000/camera" style="width: 620px; height: 480px"/>
+            </td>
+        </tr>
+    </table>
+</div>
+</div> 
+
+
+  {% for object in orders %}
+  <tr class="text-center">
+    <th>{{forloop.counter}}</th>
+    <th>
+      {% if object.author.profile.profile_photo %}
+      <img class="card-img-profile" src="{{object.author.profile.profile_photo.url}}" width="70px" height="70px">
+      {% else %}
+      <img src="{% static 'img/123123123123.png' %}" class="noProfile" width="70px" height="70px"> <br>
+      {% endif %}
+    </th>
+    <th>{{object.author}}</th>
+    <th>{{object.like.all.count}}</th>
+    <th>
+      
+    </th>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('.modal').modal();
+        $('.parallax').parallax();
+    });
+</script>
+{% endblock %}
