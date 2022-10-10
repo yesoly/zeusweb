@@ -3,7 +3,6 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
-<link rel="stylesheet" href="{% static 'main/css/banner.css' %}">
 <link rel="stylesheet" href="{% static 'main/css/card.css' %}">
 <link rel="stylesheet" href="{% static 'main/css/parallax.css' %}">
 {% endblock %}
@@ -28,7 +27,7 @@
 
 <div class="row" style="margin-left:50px; margin-right:50px; margin-top: 10px;">
 <div style="width:49%; float:left;">
-  <table class="col-md-15" id="star_table" style = "width:100%;"> 
+  <table class="col-md-15" id="star_table" style = "width:100%;">
     <tr class="text-center"><p><h5><b>구매하실 물건</b></h3></p></tr><br>
     <tr class="text-center">
       <th>No</th>
@@ -37,12 +36,21 @@
       <th>가격</th>
       <th>총합</th>
     </tr>
+      {% for product in products %}
+      <tr class="text-center">
+        <td>{{forloop.counter}}</td>
+        <td>{{product.0}}</td>
+        <td>{{product.1}}</td>
+        <td>{{product.2}}</td>
+        <td>{{product.3}}</td>
+      </tr>
+      {% endfor %}
   </table>
 </div>
 
 <div style="width:49%; float:right;">
-    <table class="col-md-15" id="star_table" style = "width:100%;"> 
-        <tr class="text-center"><p><h5><b>계산대의 물건을 확인하세요!</b></h3></p></tr><br>
+    <table class="col-md-15" id="star_table" style = "width:100%;">
+        <tr class="text-center"><p><h5><b>계산대의 물건을 확인하세요! {{name}}</b></h3></p></tr><br>
         <tr>
             <td>
                 <img
@@ -51,27 +59,16 @@
         </tr>
     </table>
 </div>
-</div> 
+</div>
 
-
-  {% for object in orders %}
-  <tr class="text-center">
-    <th>{{forloop.counter}}</th>
-    <th>
-      {% if object.author.profile.profile_photo %}
-      <img class="card-img-profile" src="{{object.author.profile.profile_photo.url}}" width="70px" height="70px">
-      {% else %}
-      <img src="{% static 'img/123123123123.png' %}" class="noProfile" width="70px" height="70px"> <br>
-      {% endif %}
-    </th>
-    <th>{{object.author}}</th>
-    <th>{{object.like.all.count}}</th>
-    <th>
-      
-    </th>
-  </tr>
-  {% endfor %}
-</table>
+<div class="container-fuild" id="app" style="padding: 0 50px;">
+  <br>
+  <div class="position-relative">
+      <div class="row d-flex align-items-center" >
+          <h4 class="m-0">total: {{total}}</h4>
+      </div>
+  </div>
+</div>
 
 {% endblock %}
 
@@ -83,3 +80,5 @@
     });
 </script>
 {% endblock %}
+
+

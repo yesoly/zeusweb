@@ -2,12 +2,19 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import cv2
+from sensor_msgs.msg import Image
+from std_msgs.msg import Int16, Int32MultiArray
+from cv_bridge import CvBridge
+import rospy
 
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'counter.settings')
     try:
+        # Create your views here.
+
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(
