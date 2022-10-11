@@ -3,10 +3,6 @@
 import os
 import sys
 import cv2
-from sensor_msgs.msg import Image
-from std_msgs.msg import Int16, Int32MultiArray
-from cv_bridge import CvBridge
-import rospy
 
 
 def main():

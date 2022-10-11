@@ -19,16 +19,23 @@ total_price = 0
 products = []
 object_list = []
 
-
-class LoginView(auth_views.LoginView):
-    template_name = "main/login.html"
-    redirect_authenticated_user = True
-
-login = LoginView.as_view()
-logout = auth_views.LogoutView.as_view()
-
 def main(request):
-    return render(request, 'main/main.html', {'products': products, 'total': total_price})
+    global page
+    if request.method == 'POST': # 지금은 버튼 이벤트로 1을 받아오도록 구현
+        page =  int(request.POST.get("move_page"))
+        print(page)
+        ######## YES를 대답해서 page 값 1을 받아오면 ########
+        # TTS) 벨트 위에 물건을 차례차례 올려주세요.
+        # 컨베이어 벨트 작동
+    else:
+        page = 0 # default = 0
+        
+    # page = 0: 시작페이지 (default)
+    # page = 1: detectron 페이지
+    # page = 2: 총액 안내 및 로봇 액션 페이지
+    # page = 3: Good bye 페이지
+    return render(request, 'main/main.html', {'products': products, 'total': total_price, 'page': page})
+
 
 class SubscribeTester:
     def __init__(self):
@@ -45,12 +52,29 @@ class SubscribeTester:
 
     def _object_label_callback(self, data):
         self.object_label_list = list(data.data)
+
+        ##### if len(object_label_list) == 0 인 상태로 10초 지속 #####
+        # TTS) 더 이상 구매하실 물건이 없나요?
+        # STT) yes 받아오기
+        # 결제 안내 및 장바구니 전달 화면으로 넘어감
+        # page = 2
+        #############################################################
+
         for i in self.object_label_list:
             if i not in object_list:
                 object_list.append(i)
                 products.append([product_name[i], 1, product_price[i], product_price[i]])
+                
+                ###### Todo) detect 효과음 추가 ######
+
                 global total_price
                 total_price += product_price[i]
+
+                ######## if i == 계란 index: #########
+                # TTS) 깨지기 쉬운 계란은 나중에 넣을게요!
+                # 계란 나중에 넣는 로봇 Task 수행
+                ######################################
+
                 print(products)
 class VideoCamera(object):
     def __init__(self):
@@ -63,6 +87,7 @@ class VideoCamera(object):
     def update(self):
         while True:
             self.frame = subscribe_tester.cv_image
+
 
 def gen(camera):
     while True:
